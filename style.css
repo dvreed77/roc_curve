@@ -36,6 +36,11 @@ td {
 	margin-right: 60px;
 }
 
+#chart {
+	float: left;
+	margin-right: 30px;
+}
+
 .pt {
 	fill: rgb(73, 129, 199);
 }
@@ -46,4 +51,15 @@ tr {
 
 tr.select {
 	background-color: rgb(214, 230, 243);
+}
+
+#ref {
+	clear: both;
+}
+
+#code {
+	display: inline-block;
+	font-family: "Menlo";
+	font-size: 16px;
+	float: right;
 }

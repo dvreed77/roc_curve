@@ -10,6 +10,8 @@ data.forEach(function(d, i){
 
 R = roc(data);
 
+// console.log(R);
+
 var x = d3.scale.linear()
     .range([0, width]);
 
@@ -114,15 +116,19 @@ function click(f) {
   darea.datum(R2)
   .attr("class", "area")
   .attr("d", area)
+
+ circs.data(R2)
+.attr("cx", function(d) {return x(d.x);})
+.attr("cy", function(d) {return y(d.y);});
 }
 
 // Toggle children on click.
 function mouseover1(d) {
-  d3.select(circs[0][d.index]).attr("r", 5);
+  circs.filter(function(f) { return f.index == d.index; }).attr("r", 5);  
   d3.select(this).attr("class", "select")
 }
 function mouseout1(d) {
-  d3.select(circs[0][d.index]).attr("r", 3);
+  circs.filter(function(f) { return f.index == d.index; }).attr("r", 3);
   d3.select(this).attr("class", "")
 }
 
@@ -140,12 +146,13 @@ N = data.filter(function(a){return a.class == 0;}).length;
 P = num_pts - N;
 
 // console.log(data)
-var i = 1;
+var i = 0;
 
 f_prev = -10;
 
 var FP = 0,
 TP = 0;
+
 
 // console.log(data[i])
 // data[0].x = 0;
@@ -154,8 +161,15 @@ while (i < num_pts) {
 
 	// console.log(data[i])
 	if (data[i].score != f_prev) {
-		data[i-1].x = FP/N;
-		data[i-1].y = TP/P + .1;
+    var tmp = {};
+    tmp.x = FP/N;
+    tmp.y = TP/P;
+    if (i > 0) {
+    tmp.index = data[i-1].index;
+    }
+    R.push(tmp)
+		// data[i-1].x = FP/N;
+		// data[i-1].y = TP/P + .1;
 		f_prev = data[i].score;
 	}
 
@@ -169,10 +183,13 @@ while (i < num_pts) {
 	i++;
 }
 
+// tmp.x = FP/N;
+// tmp.y = TP/P;
+R.push({"x": FP/N, "y": TP/P, "index": data[i-1].index})
 //TODO +0.1 is a hack
-data[num_pts-1].x = FP/N;
-data[num_pts-1].y = TP/P + 0.1;
+// data[num_pts-1].x = FP/N;
+// data[num_pts-1].y = TP/P + 0.1;
 
-return data;
+return R;
 	
 }
