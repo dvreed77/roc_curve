@@ -40,21 +40,12 @@ var svg = d3.select("#roc").append("svg")
 x.domain([0, 1]);
 y.domain([0, 1]);
 
-svg.append("path")
+var darea = svg.append("path")
   .datum(R)
   .attr("class", "area")
   .attr("d", area)
 
-var circs = svg.selectAll("circle")
-.data(R)
-.enter()
-.append("circle")
-.attr("cx", function(d) {return x(d.x);})
-.attr("cy", function(d) {return y(d.y);})
-.attr("r", 3)
-.attr("class", "pt")
-.on("mouseover", mouseover)
-    .on("mouseout", mouseout);
+
 
 svg.append("g")
   .attr("class", "x axis")
@@ -71,6 +62,18 @@ svg.append("g")
   .style("text-anchor", "end")
   .text("TPR");
 
+
+var circs = svg.selectAll("circle")
+.data(R)
+.enter()
+.append("circle")
+.attr("cx", function(d) {return x(d.x);})
+.attr("cy", function(d) {return y(d.y);})
+.attr("r", 3)
+.attr("class", "pt")
+.on("mouseover", mouseover)
+    .on("mouseout", mouseout);
+
 // var cols = d3.select('#chart').append("ul")
 
 var cols = d3.select('#chart table').selectAll("tr.data")
@@ -79,7 +82,8 @@ var cols = d3.select('#chart table').selectAll("tr.data")
 .append("tr")
 .html(function(d){return "<td>"+d.class+"</td><td>" + d.score + "</td>";})
 .on("mouseover", mouseover1)
-    .on("mouseout", mouseout1);
+.on("mouseout", mouseout1)
+.on("click", click);
 // .text(function(d){return d.score;})
 
 // Toggle children on click.
@@ -90,6 +94,26 @@ function mouseover(d) {
 function mouseout(d) {
   cols[0][d.index].className = "";
   d3.select(this).attr("r", 3)
+}
+
+function click(f) {
+  
+  if (f.class) {
+    f.class = 0;
+  }else{
+    f.class = 1;
+  }
+
+  d3.select(this).data([f]);
+
+  // cols.
+  R2 = roc(data)
+  d3.select(this)
+  .html(function(d){return "<td>"+d.class+"</td><td>" + d.score + "</td>";})
+
+  darea.datum(R2)
+  .attr("class", "area")
+  .attr("d", area)
 }
 
 // Toggle children on click.
