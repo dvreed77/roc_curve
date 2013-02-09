@@ -89,11 +89,11 @@ var cols = d3.select('#chart table').selectAll("tr.data")
 
 // Toggle children on click.
 function mouseover(d) {
-  cols[0][d.index].className = "select";
+  d3.select(cols[0][d.index]).classed("select", true);
   d3.select(this).attr("r", 5)
 }
 function mouseout(d) {
-  cols[0][d.index].className = "";
+  d3.select(cols[0][d.index]).classed("select", false);
   d3.select(this).attr("r", 3)
 }
 
