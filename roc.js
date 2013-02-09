@@ -1,6 +1,6 @@
 var margin = {top: 20, right: 20, bottom: 50, left: 50},
-    width = 200 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+    width = 300 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%d-%b-%y").parse;
 
@@ -47,8 +47,6 @@ var darea = svg.append("path")
   .attr("class", "area")
   .attr("d", area)
 
-
-
 svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + height + ")")
@@ -82,9 +80,10 @@ var cols = d3.select('#chart table').selectAll("tr.data")
 .data(data)
 .enter()
 .append("tr")
-.html(function(d){return "<td>"+d.class+"</td><td>" + d.score + "</td>";})
+.html(function(d){return "<td class='ind'>"+d.index+"</td><td>"+d.class+"</td><td>" + d.score + "</td>";})
 .on("mouseover", mouseover1)
 .on("mouseout", mouseout1)
+.attr("class", function(d) {return (d.class == 1) ? "class1"  : "";})
 .on("click", click);
 // .text(function(d){return d.score;})
 
@@ -111,7 +110,8 @@ function click(f) {
   // cols.
   R2 = roc(data)
   d3.select(this)
-  .html(function(d){return "<td>"+d.class+"</td><td>" + d.score + "</td>";})
+  .html(function(d){return "<td class='ind'>"+d.index+"</td><td>"+d.class+"</td><td>" + d.score + "</td>";})
+  .classed(function(d) {return (d.class == 1) ? "class1"  : "";});
 
   darea.datum(R2)
   .attr("class", "area")
@@ -126,10 +126,12 @@ function click(f) {
 function mouseover1(d) {
   circs.filter(function(f) { return f.index == d.index; }).attr("r", 5);  
   d3.select(this).attr("class", "select")
+  .classed("class1", function(d) {return (d.class == 1) ? true  : false;});
 }
 function mouseout1(d) {
   circs.filter(function(f) { return f.index == d.index; }).attr("r", 3);
   d3.select(this).attr("class", "")
+  .classed("class1", function(d) {return (d.class == 1) ? true  : false;});
 }
 
 

@@ -14,22 +14,27 @@
 </head>
 <body>
 	<h1>Understanding Receiver Operating Characteristic (ROC) Curves</h1>
-	<p> ROC Curves are thrown around a lot, and the overall thing to look for is that you want the curve to resemble a square and not a triangle.</p>
-	<div id="roc">		
-	</div>
-	<div id="chart">	
-	<table>
-	<tr>
-		<th>Class</th>
-		<th>Score</th>
-	</tr>
-	</table>	
+	<p>ROC Curves are used extemely often in classification problems to assess the performance of a given classifier.</p>
+	<p>In practice, you will never be able to create a classifier that will correctly identify every new sample, and so there is always going to be a tradeoff between the number in which you misclassify and the number in which you correctly classify. </p>
+
+	<div id="workspace">
+		<h3>Click on the classes in the table to adjust the ROC Curve</h3>
+		<div id="roc">			
+		</div>
+		<div id="chart">	
+			<table>
+				<tr>
+					<th></th>
+					<th>Class</th>
+					<th>Score</th>
+				</tr>
+			</table>	
+		</div>
 	</div>
 	<div id="code">
 		<h3>Algorithm:</h3>
 		<pre>
-			<code class="python">
-FP = TP = 0
+			<code class="python">FP = TP = 0
 R = []
 fprev = -10
 i = 1
